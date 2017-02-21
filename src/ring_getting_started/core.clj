@@ -1,4 +1,5 @@
-(ns ring-getting-started.core)
+(ns ring-getting-started.core
+  (:require [ring.util.response :refer [response]]))
 
 ;; Getting Started
 (defn handler [request]
@@ -19,5 +20,10 @@
     (let [response (handler request)]
       (assoc-in response [:headers "Content-Type"] content-type))))
 ; apply middleware to an handler
-(def app
+(def sample-middleware-app
   (wrap-content-type what-is-my-ip "text/html"))
+
+;; Creating responses
+(def simple-response (response "Ciao Mondo!"))
+(defn sample-response [request]
+  simple-response)
