@@ -63,3 +63,9 @@
 
 (def using-ring-middleware-2
   (wrap-params built-in-params))
+
+
+;; Interactive Development
+(def app
+  (-> built-in-params
+      wrap-params))
