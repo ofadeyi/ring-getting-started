@@ -43,5 +43,7 @@
   {:uri "/test"
    :status 200,
    :body "Hola!"})
+
 (def using-ring-middleware
-  (wrap-content-type built-in-middleware))
+  (wrap-content-type built-in-middleware
+                     {:mime-types {"ola" "text/x-ola"}}))
