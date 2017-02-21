@@ -1,6 +1,7 @@
 (ns ring-getting-started.core
   (:require [ring.util.response :refer [response content-type]]
-            [ring.middleware.content-type :refer [wrap-content-type]]))
+            [ring.middleware.content-type :refer [wrap-content-type]]
+            [ring.middleware.params :refer [wrap-params]]))
 
 ;; Getting Started
 (defn handler [request]
@@ -44,11 +45,21 @@
 
 
 ;; Content Types
-(defn built-in-middleware [request]
-  {:uri    "/test"
+(defn built-in-content-type [request]
+  {:uri    "/test-content-types"
    :status 200,
    :body   "Hola!"})
 
-(def using-ring-middleware
-  (wrap-content-type built-in-middleware
+(def using-ring-middleware-1
+  (wrap-content-type built-in-content-type
                      {:mime-types {"ola" "text/x-ola"}}))
+
+
+;; Parameters
+(defn built-in-params [request]
+  {:uri    "/test-params"
+   :status 200,
+   :body   (str (:params request))})
+
+(def using-ring-middleware-2
+  (wrap-params built-in-params))
