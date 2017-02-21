@@ -1,5 +1,5 @@
 (ns ring-getting-started.core
-  (:require [ring.util.response :refer [response]]))
+  (:require [ring.util.response :refer [response content-type]]))
 
 ;; Getting Started
 (defn handler [request]
@@ -24,6 +24,15 @@
   (wrap-content-type what-is-my-ip "text/html"))
 
 ;; Creating responses
+; Simple response
 (def simple-response (response "Ciao Mondo!"))
 (defn sample-response [request]
   simple-response)
+
+; Response composition
+(def response-with-content-type
+  (content-type
+    (response "Hello World")
+    "text/plain"))
+(defn conposed-response [request]
+  response-with-content-type)
