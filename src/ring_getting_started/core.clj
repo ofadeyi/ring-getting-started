@@ -1,5 +1,6 @@
 (ns ring-getting-started.core
-  (:require [ring.util.response :refer [response content-type]]))
+  (:require [ring.util.response :refer [response content-type]]
+            [ring.middleware.content-type :refer [wrap-content-type]]))
 
 ;; Getting Started
 (defn handler [request]
@@ -15,13 +16,13 @@
    :body (:remote-addr request)})
 
 ; Middleware
-(defn wrap-content-type [handle content-type]
+(defn wrap-content-type-custom [handle content-type]
   (fn [request]
     (let [response (handler request)]
       (assoc-in response [:headers "Content-Type"] content-type))))
 ; apply middleware to an handler
 (def sample-middleware-app
-  (wrap-content-type what-is-my-ip "text/html"))
+  (wrap-content-type-custom what-is-my-ip "text/html"))
 
 ;; Creating responses
 ; Simple response
@@ -36,3 +37,11 @@
     "text/plain"))
 (defn conposed-response [request]
   response-with-content-type)
+
+;; Content Types
+(defn built-in-middleware [request]
+  {:uri "/test"
+   :status 200,
+   :body "Hola!"})
+(def using-ring-middleware
+  (wrap-content-type built-in-middleware))
