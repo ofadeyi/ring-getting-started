@@ -4,25 +4,28 @@
 
 ;; Getting Started
 (defn handler [request]
-  {:status 200,
+  {:status  200,
    :headers {"Content-Type" "text/html"},
-   :body "Hello World"})
+   :body    "Hello World"})
+
 
 ;; Concepts
 ; Handlers, Requests, Responses
 (defn what-is-my-ip [request]
-  {:status 200
+  {:status  200
    :headers {"Content-Type" "text/plain"}
-   :body (:remote-addr request)})
+   :body    (:remote-addr request)})
 
 ; Middleware
 (defn wrap-content-type-custom [handle content-type]
   (fn [request]
     (let [response (handler request)]
       (assoc-in response [:headers "Content-Type"] content-type))))
+
 ; apply middleware to an handler
 (def sample-middleware-app
   (wrap-content-type-custom what-is-my-ip "text/html"))
+
 
 ;; Creating responses
 ; Simple response
@@ -35,14 +38,16 @@
   (content-type
     (response "Hello World")
     "text/plain"))
+
 (defn conposed-response [request]
   response-with-content-type)
 
+
 ;; Content Types
 (defn built-in-middleware [request]
-  {:uri "/test"
+  {:uri    "/test"
    :status 200,
-   :body "Hola!"})
+   :body   "Hola!"})
 
 (def using-ring-middleware
   (wrap-content-type built-in-middleware
